@@ -2,7 +2,7 @@
 Create Database disk_inventory
 go
 
-drop database disk_inventory
+
 
 --using the database created
 use disk_inventory;
@@ -14,6 +14,17 @@ create table Borrower(
 	lname			char(50),
 	PhoneNum		Char(50),
 );
+
+--Create the table for the disk itself, set the disk id, name, release date, disk type, genre id, and status id
+Create Table Disk(
+	DiskID			int			Primary Key Not Null identity,
+	DiskName		char(50)	Not Null,
+	RelDate			char(50)	Not Null,
+	DiskType		char(50)	Not null,
+	GenreID			int			Not NUll,
+	StatusCode		int			not null
+);
+
 
 --Creating the table for disk has borrower, setting disk ID, Checkout date, borrower id, and return date
 Create table DiskHasBorrower (
@@ -29,15 +40,6 @@ Create Table DiskType(
 	diskdescription	Char(50)	not null,
 );
 
---Create the table for the disk itself, set the disk id, name, release date, disk type, genre id, and status id
-Create Table Disk(
-	DiskID			int			Primary Key Not Null identity,
-	DiskName		char(50)	Not Null,
-	RelDate			char(50)	Not Null,
-	DiskType		char(50)	Not null,
-	GenreID			int			Not NUll,
-	StatusCode		int			not null
-);
 
 -- create the table for the genre, set the genre ID, genreDescription and Disk ID
 Create Table Genre(
@@ -46,11 +48,13 @@ Create Table Genre(
 	genreDescription	char(50),
 );
 
---Create table for if the disk has artist, set the disk id and the actor id
-Create Table DiskHasArtist(
-	DiskID			int		Foreign Key References Disk(DiskID) Not Null identity,
-	ArtistID		int		Foreign Key References Artist(ArtistID)
+-- create table for artist type, set the artist type ID, artist description, and artist id
+create table	ArtistType(
+	ArtistTypeID	int		Primary Key		Not Null,
+	artdescription	char(50)		not null,
 );
+
+
 
 
 --Create table for the artist, set the artist ID, first and last name, group name, artist type id, disk id, and actor id
@@ -62,11 +66,13 @@ Create Table Artist(
 	ArtistTypeID	int			Foreign Key References ArtistType(ArtistTypeID),
 );
 
--- create table for artist type, set the artist type ID, artist description, and artist id
-create table	ArtistType(
-	ArtistTypeID	int		Primary Key		Not Null,
-	artdescription	char(50)		not null,
+--Create table for if the disk has artist, set the disk id and the actor id
+Create Table DiskHasArtist(
+	DiskID			int		Foreign Key References Disk(DiskID) Not Null identity,
+	ArtistID		int		Foreign Key References Artist(ArtistID)
 );
+
+
 
 --Create table for the status code, set the status code, the status description and the disk id
 create table StatusCode(
